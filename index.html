@@ -3,143 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Office</title>
+    <title>Digital Office | Современный виртуальный офис</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Основные стили */
+        :root {
+            --primary: #6C5CE7;
+            --secondary: #00B894;
+            --accent: #FD79A8;
+            --background: #F9F9FF;
+            --text: #2D3436;
+            --card-bg: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
         body {
             margin: 0;
-            padding: 20px;
-            background-color: #121212;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
             text-align: center;
+            margin-bottom: 48px;
         }
-        
-        .image-container {
-            display: flex;
-            justify-content: center;
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 30px;
-            flex-wrap: wrap;
+            margin-top: 40px;
         }
-        
-        .image-with-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        .room-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
         .room-image {
-            width: 250px;
+            width: 100%;
             height: 180px;
             object-fit: cover;
-            border: 3px solid #00ff00;
-            border-radius: 5px;
-            margin-bottom: 15px;
         }
-        
-        .action-button {
-            padding: 10px 20px;
-            background-color: #000;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-            border-radius: 5px;
+
+        .room-content {
+            padding: 20px;
+        }
+
+        .room-title {
+            font-size: 1.3rem;
+            margin: 0 0 10px;
+            color: var(--primary);
+        }
+
+        .room-description {
+            color: var(--text);
+            opacity: 0.7;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .room-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            border: none;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
         }
-        
-        .action-button:hover {
-            background-color: #00ff00;
-            color: #000;
+
+        .room-button:hover {
+            background-color: #5649C0;
         }
-        
-        #chat {
+
+        .room-button.chat {
+            background-color: var(--accent);
+        }
+
+        .room-button.chat:hover {
+            background-color: #FC62A0;
+        }
+
+        /* Чат */
+        #chat-container {
             display: none;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            background-color: rgba(0, 0, 0, 0.9);
-            border: 2px solid #00ff00;
-            padding: 15px;
-            border-radius: 5px;
+            bottom: 30px;
+            right: 30px;
+            width: 350px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            overflow: hidden;
         }
-        
+
+        .chat-header {
+            padding: 15px 20px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
         #messages {
-            height: 200px;
+            height: 300px;
+            padding: 15px;
             overflow-y: auto;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #00ff00;
-            padding-bottom: 10px;
+            background: #F5F5FA;
         }
-        
+
+        .message-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
         #messageInput {
-            width: 70%;
-            padding: 8px;
-            background: #000;
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            margin-right: 5px;
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #sendMessage {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sendMessage:hover {
+            background-color: #5649C0;
+        }
+
+        @media (max-width: 768px) {
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            #chat-container {
+                width: calc(100% - 40px);
+                right: 20px;
+                bottom: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Digital Office</h1>
+    <div class="container">
+        <header>
+            <h1>Digital Office</h1>
+            <p class="subtitle">Современное пространство для виртуальной работы и общения</p>
+        </header>
 
-    <!-- Контейнер с комнатами -->
-    <div class="image-container">
-        <!-- Переговорка -->
-        <div class="image-with-button">
-            <img src="assets/meeting-room.jpg" class="room-image" alt="Meeting Room">
-            <button class="action-button" onclick="openJitsi('meeting')">Войти в переговорку</button>
-        </div>
-        
-        <!-- Кулер -->
-        <div class="image-with-button">
-            <img src="assets/watercooler.jpg" class="room-image" alt="Watercooler">
-            <button class="action-button" onclick="openJitsi('watercooler')">Подойти к кулеру</button>
-        </div>
-        
-        <!-- Чат -->
-        <div class="image-with-button">
-            <img src="assets/chat-room.jpg" class="room-image" alt="Chat Room">
-            <button class="action-button" onclick="toggleChat()">Открыть чат</button>
+        <div class="rooms-grid">
+            <!-- Переговорка -->
+            <div class="room-card">
+                <img src="assets/meeting-room.jpg" alt="Переговорка" class="room-image">
+                <div class="room-content">
+                    <h3 class="room-title">Переговорная</h3>
+                    <p class="room-description">Проводите встречи и обсуждения в уютной виртуальной переговорке</p>
+                    <button class="room-button" onclick="openJitsi('meeting')">Присоединиться</button>
+                </div>
+            </div>
+            
+            <!-- Кухня -->
+            <div class="room-card">
+                <img src="assets/kitchen.jpg" alt="Кухня" class="room-image">
+                <div class="room-content">
+                    <h3 class="room-title">Кухня</h3>
+                    <p class="room-description">Неформальное общение у виртуального кулера с коллегами</p>
+                    <button class="room-button" onclick="openJitsi('watercooler')">Зайти на кухню</button>
+                </div>
+            </div>
+            
+            <!-- Чат -->
+            <div class="room-card">
+                <img src="assets/chat-room.jpg" alt="Общий чат" class="room-image">
+                <div class="room-content">
+                    <h3 class="room-title">Общий чат</h3>
+                    <p class="room-description">Общайтесь в режиме реального времени со всей командой</p>
+                    <button class="room-button chat" onclick="toggleChat()">Открыть чат</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Чат -->
-    <div id="chat">
+    <div id="chat-container">
+        <div class="chat-header">
+            Общий чат
+        </div>
         <div id="messages"></div>
-        <input type="text" id="messageInput" placeholder="Введите сообщение...">
-        <button onclick="sendMessage()" class="action-button">Отправить</button>
+        <div class="message-input-container">
+            <input type="text" id="messageInput" placeholder="Напишите сообщение...">
+            <button id="sendMessage" onclick="sendMessage()">Отправить</button>
+        </div>
     </div>
 
-    <!-- Подключение Firebase -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="js/firebase.js"></script>
     
-    <!-- Логика интерфейса -->
     <script>
-        // Открытие Jitsi
+        // Функции интерфейса
         function openJitsi(room) {
             window.open(`https://meet.jit.si/digital-office-${room}`, '_blank');
         }
         
-        // Переключение видимости чата
         function toggleChat() {
-            const chat = document.getElementById('chat');
+            const chat = document.getElementById('chat-container');
             chat.style.display = chat.style.display === 'block' ? 'none' : 'block';
         }
         
-        // Инициализация (должна быть в firebase.js)
+        // Проверка загрузки Firebase
         document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем, что Firebase инициализирован
+            console.log('Приложение загружено');
+            
+            // Инициализация чата
             if (typeof firebase !== 'undefined') {
+                // Ваша реализация из firebase.js должна быть здесь
                 console.log('Firebase подключен');
             } else {
-                console.error('Firebase не загрузился! Проверьте подключение скриптов');
+                console.error('Ошибка: Firebase не загрузился');
             }
         });
     </script>
