@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Office</title>
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .image-with-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .room-image {
+            width: 250px;
+            height: 180px;
+            object-fit: cover;
+            border: 3px solid #00ff00;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            background-color: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .action-button:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+        
+        #chat {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        #messages {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        
+        #messageInput {
+            width: 70%;
+            padding: 8px;
+            background: #000;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digital Office</h1>
+
+    <!-- Контейнер с комнатами -->
+    <div class="image-container">
+        <!-- Переговорка -->
+        <div class="image-with-button">
+            <img src="assets/meeting-room.jpg" class="room-image" alt="Meeting Room">
+            <button class="action-button" onclick="openJitsi('meeting')">Войти в переговорку</button>
+        </div>
+        
+        <!-- Кулер -->
+        <div class="image-with-button">
+            <img src="assets/watercooler.jpg" class="room-image" alt="Watercooler">
+            <button class="action-button" onclick="openJitsi('watercooler')">Подойти к кулеру</button>
+        </div>
+        
+        <!-- Чат -->
+        <div class="image-with-button">
+            <img src="assets/chat-room.jpg" class="room-image" alt="Chat Room">
+            <button class="action-button" onclick="toggleChat()">Открыть чат</button>
+        </div>
+    </div>
+
+    <!-- Чат -->
+    <div id="chat">
+        <div id="messages"></div>
+        <input type="text" id="messageInput" placeholder="Введите сообщение...">
+        <button onclick="sendMessage()" class="action-button">Отправить</button>
+    </div>
+
+    <!-- Подключение Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/firebase.js"></script>
+    
+    <!-- Логика интерфейса -->
+    <script>
+        // Открытие Jitsi
+        function openJitsi(room) {
+            window.open(`https://meet.jit.si/digital-office-${room}`, '_blank');
+        }
+        
+        // Переключение видимости чата
+        function toggleChat() {
+            const chat = document.getElementById('chat');
+            chat.style.display = chat.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        // Инициализация (должна быть в firebase.js)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверяем, что Firebase инициализирован
+            if (typeof firebase !== 'undefined') {
+                console.log('Firebase подключен');
+            } else {
+                console.error('Firebase не загрузился! Проверьте подключение скриптов');
+            }
+        });
+    </script>
+</body>
+</html>
